@@ -1,9 +1,13 @@
 package ruwanbandara.camera
 
+import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -13,7 +17,10 @@ private val Any.PERMISSION_DENIED: Any?
 
 class MainActivity : AppCompatActivity() {
 
+    private val IMAGE_CPATURE_CODE: Int = 1001
     private val PERMISSION_CODE: Int =1000;
+    var image_rui: Uri? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +59,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openCamera() {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
+        image_rui = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        // camera intent
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_CPATURE_CODE)
 
     }
 
