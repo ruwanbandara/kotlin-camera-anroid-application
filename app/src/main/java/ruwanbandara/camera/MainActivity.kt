@@ -1,5 +1,7 @@
 package ruwanbandara.camera
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,13 +14,12 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-private val Any.PERMISSION_DENIED: Any?
-    get() {return 1.0}
+
 
 class MainActivity : AppCompatActivity() {
 
-    private val IMAGE_CPATURE_CODE: Int = 1001
-    private val PERMISSION_CODE: Int =1000;
+    private val IMAGE_CPATURE_CODE = 1001
+    private val PERMISSION_CODE =1000
     var image_rui: Uri? = null
 
 
@@ -66,15 +67,20 @@ class MainActivity : AppCompatActivity() {
         // camera intent
 
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_CPATURE_CODE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_rui)
+        startActivityForResult(cameraIntent, IMAGE_CPATURE_CODE)
 
     }
 
+    @SuppressLint("WrongConstant")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults)
+
+
         // called when user presses ALLOw or DENT frompermission requs popup
         when(requestCode){
             PERMISSION_CODE -> {
@@ -85,10 +91,19 @@ class MainActivity : AppCompatActivity() {
                 }
                 else{
                     // permission from popup was denied
-                    Toast.makeText(this,"Permission denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,"Permission denied", 1).show()
 
                 }
             }
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //called when image captured form camera intent
+        if (resultCode == Activity.RESULT_OK){
+            //set image cpatured to image viwe
+            image_view.setImageURI(image_rui)
         }
     }
 }
