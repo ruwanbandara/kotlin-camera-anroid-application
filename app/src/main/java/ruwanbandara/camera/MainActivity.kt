@@ -14,10 +14,10 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-private val PackageManager.PERMISSION_DENIED:Any?
+private val PackageManager.PERMISSION_DENIED: Any?
     get() {
-    return 1.0
-}
+        return -1;
+    }
 
 class MainActivity : AppCompatActivity() {
 
