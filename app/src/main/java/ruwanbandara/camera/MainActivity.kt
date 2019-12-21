@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -24,6 +26,12 @@ class MainActivity : AppCompatActivity() {
     private val IMAGE_CPATURE_CODE = 1001
     private val PERMISSION_CODE =1000
     var image_rui: Uri? = null
+
+    // firebase connecting
+    private var firepath: Uri? = null
+    internal var storage:FirebaseStorage? = null
+    internal var storageReferences: StorageReference? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +66,10 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
+        //Init Firebase
+        storage = FirebaseStorage.getInstance()
+        storageReferences = storage!!.reference
 
 
     }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "691305434226",
+    "firebase_url": "https://ocr-android-8bb1e.firebaseio.com",
+    "project_id": "ocr-android-8bb1e",
+    "storage_bucket": "ocr-android-8bb1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691305434226:android:39ce24e145fb45e36046eb",
+        "android_client_info": {
+          "package_name": "ruwanbandara.camera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691305434226-a4sbggh52sjqjtgakn54n8knfjgl9isn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ruwanbandara.camera",
+            "certificate_hash": "f5f8267344797b73a0e0c77346e0b4c89063621a"
+          }
+        },
+        {
+          "client_id": "691305434226-40digtfnac7m1fm7pq6gi614q650veh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYclaa2qv5LnG5PR0wo9AUS-5_JsdwIEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "691305434226-40digtfnac7m1fm7pq6gi614q650veh3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
