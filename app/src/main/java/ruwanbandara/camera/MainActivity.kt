@@ -67,6 +67,8 @@ class MainActivity : AppCompatActivity() {
         values.put(MediaStore.Images.Media.TITLE, "New picture")
         values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
         image_rui = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        println("test")
+        println(image_rui)
         // camera intent
 
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
