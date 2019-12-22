@@ -10,6 +10,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -22,16 +23,25 @@ private val PackageManager.PERMISSION_DENIED: Any?
         return -1;
     }
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.onClickListener {
+
 
     private val IMAGE_CPATURE_CODE = 1001
     private val PERMISSION_CODE =1000
     var image_rui: Uri? = null
 
     // firebase connecting
-    private var firepath: Uri? = null
+    private var filepath: Uri? = null
     internal var storage:FirebaseStorage? = null
     internal var storageReferences: StorageReference? = null
+
+
+    override fun onClick(p0: View){
+        if (p0 == capture_btn)
+            openCamera()
+        else if (p0 == Upload_btn)
+            uploadFile()
+    }
 
 
 
@@ -69,7 +79,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Upload button
-        Upload_btn.setOnClickListener(this)
+        Upload_btn.setOnClickListener{
+
+
+        }
 
         //Init Firebase
         storage = FirebaseStorage.getInstance()
@@ -87,33 +100,35 @@ class MainActivity : AppCompatActivity() {
         println(image_rui)
         // camera intent
 
+        filepath = image_rui
+
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_rui)
         startActivityForResult(cameraIntent, IMAGE_CPATURE_CODE)
 
     }
     private fun uploadFile(){
-        if (image_rui != null){
+        if (filepath != null){
 
-            val progressDialg = progressDialg(this)
-            progressDialg.setTitle("Uploading....")
-            progressDialg.show()
+            val progressDialog = progressDialog(this)
+            progressDialog.setTitle("Uploading....")
+            progressDialog.show()
 
             val imageRef = storageReferences!!.child("images/"+ UUID.randomUUID().toString())
-            imageRef.putFile(image_rui!!)
+            imageRef.putFile(filepath!!)
                 .addOnSuccessListener {
-                    progressDialg.dismiss()
+                    progressDialog.dismiss()
                     Toast.makeText(applicationContext,"File Upload",Toast.LENGTH_SHORT).show()
                     
                 }
                 .addOnFailureListener {
-                    progressDialg.dismiss()
+                    progressDialog.dismiss()
                     Toast.makeText(applicationContext, "Failed", Toast.LENGTH_SHORT).show()
 
                 }
                 .addOnProgressListener{taskSnapshot ->
                     val progress =100.0 * taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
-                    progressDialg.setMessage("uploaded" +progress.toInt()+"....")
+                    progressDialog.setMessage("uploaded" +progress.toInt()+"....")
             }
         }
     }
@@ -149,11 +164,6 @@ class MainActivity : AppCompatActivity() {
         //called when image captured form camera intent
         if (resultCode == Activity.RESULT_OK){
             //set image cpatured to image viwe
-            image_view.setImageURI(image_rui)
         }
     }
-}
-
-private fun Button.setOnClickListener(mainActivity: MainActivity) {
-
 }
