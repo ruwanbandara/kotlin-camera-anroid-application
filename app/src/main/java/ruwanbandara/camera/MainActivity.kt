@@ -23,7 +23,7 @@ private val PackageManager.PERMISSION_DENIED: Any?
         return -1;
     }
 
-class MainActivity : AppCompatActivity(), View.onClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private val IMAGE_CPATURE_CODE = 1001
@@ -110,25 +110,25 @@ class MainActivity : AppCompatActivity(), View.onClickListener {
     private fun uploadFile(){
         if (filepath != null){
 
-            val progressDialog = progressDialog(this)
-            progressDialog.setTitle("Uploading....")
-            progressDialog.show()
+            val ProgressDialog = progressDialog(this)
+            ProgressDialog.setTitle("Uploading....")
+            ProgressDialog.show()
 
             val imageRef = storageReferences!!.child("images/"+ UUID.randomUUID().toString())
             imageRef.putFile(filepath!!)
                 .addOnSuccessListener {
-                    progressDialog.dismiss()
+                    ProgressDialog.dismiss()
                     Toast.makeText(applicationContext,"File Upload",Toast.LENGTH_SHORT).show()
                     
                 }
                 .addOnFailureListener {
-                    progressDialog.dismiss()
+                    ProgressDialog.dismiss()
                     Toast.makeText(applicationContext, "Failed", Toast.LENGTH_SHORT).show()
 
                 }
                 .addOnProgressListener{taskSnapshot ->
                     val progress =100.0 * taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
-                    progressDialog.setMessage("uploaded" +progress.toInt()+"....")
+                    ProgressDialog.setMessage("uploaded" +progress.toInt()+"....")
             }
         }
     }
