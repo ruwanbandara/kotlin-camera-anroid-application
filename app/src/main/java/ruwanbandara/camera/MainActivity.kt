@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
 private val PackageManager.PERMISSION_DENIED: Any?
@@ -67,6 +68,9 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        // Upload button
+        Upload_btn.setOnClickListener(this)
+
         //Init Firebase
         storage = FirebaseStorage.getInstance()
         storageReferences = storage!!.reference
@@ -87,6 +91,31 @@ class MainActivity : AppCompatActivity() {
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_rui)
         startActivityForResult(cameraIntent, IMAGE_CPATURE_CODE)
 
+    }
+    private fun uploadFile(){
+        if (image_rui != null){
+
+            val progressDialg = progressDialg(this)
+            progressDialg.setTitle("Uploading....")
+            progressDialg.show()
+
+            val imageRef = storageReferences!!.child("images/"+ UUID.randomUUID().toString())
+            imageRef.putFile(image_rui!!)
+                .addOnSuccessListener {
+                    progressDialg.dismiss()
+                    Toast.makeText(applicationContext,"File Upload",Toast.LENGTH_SHORT).show()
+                    
+                }
+                .addOnFailureListener {
+                    progressDialg.dismiss()
+                    Toast.makeText(applicationContext, "Failed", Toast.LENGTH_SHORT).show()
+
+                }
+                .addOnProgressListener{taskSnapshot ->
+                    val progress =100.0 * taskSnapshot.bytesTransferred/taskSnapshot.totalByteCount
+                    progressDialg.setMessage("uploaded" +progress.toInt()+"....")
+            }
+        }
     }
 
     @SuppressLint("WrongConstant")
@@ -123,4 +152,8 @@ class MainActivity : AppCompatActivity() {
             image_view.setImageURI(image_rui)
         }
     }
+}
+
+private fun Button.setOnClickListener(mainActivity: MainActivity) {
+
 }
