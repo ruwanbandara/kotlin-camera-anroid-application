@@ -2,6 +2,7 @@ package ruwanbandara.camera
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun uploadFile(){
         if (filepath != null){
 
-            val ProgressDialog = progressDialog(this)
+            val ProgressDialog = ProgressDialog(this)
             ProgressDialog.setTitle("Uploading....")
             ProgressDialog.show()
 
